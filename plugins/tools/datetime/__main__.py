@@ -41,6 +41,8 @@ async def grab_time(message: Message):
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return
+    else:
+        country_input = None
 
     country_code = COUNTRY_CITY if not country_input else country_input
     datetime_now = datetime.now(timezone(country_code))
