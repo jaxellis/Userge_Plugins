@@ -29,21 +29,21 @@ async def grab_time(message: Message):
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return
-    elif '-code' in message.flags:
-        LOG.debug("date_time | FLAG = Country_Code: Grabbing Country_Code...")
-        country_code = message.filtered_input_str
-        if not country_code:
+
+    if '-code' in message.flags:
+        LOG.debug("date_time | FLAG = Code: Grabbing Country_Code...")
+        country_input = message.filtered_input_str
+        if not country_input:
             await message.err("No Country_City code found after flag...")
             return
-        COUNTRY_CITY = country_code
-
-    if not COUNTRY_CITY:
+    elif not COUNTRY_CITY:
         LOG.debug("date_time: No Config Set")
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return
 
-    datetime_now = datetime.now(timezone(COUNTRY_CITY))
+    country_code = country_input if country_input else COUNTRY_CITY
+    datetime_now = datetime.now(timezone(country_code))
     date_day = datetime_now.strftime("%d")
     date_time = datetime_now.strftime('%I:%M%p')
     if date_day[0] == "0":
@@ -51,7 +51,7 @@ async def grab_time(message: Message):
     if date_time[0] == "0":
         date_time = date_time[1:]
     await message.edit(" ".join(["It's", date_time, "on", datetime_now.strftime('%A'), "the", date_day + ordinal_suffix(
-        int(date_day)), "of", datetime_now.strftime('%B'), "in", COUNTRY_CITY.replace("_", " ")]))
+        int(date_day)), "of", datetime_now.strftime('%B'), "in", country_code.replace("_", " ")]))
     LOG.debug("Time: Command Finished Successfully")
 
 
