@@ -34,7 +34,6 @@ async def grab_time(message: Message):
     if 'code' in message.flags or 'c' in message.flags:
         LOG.debug("date_time | FLAG = Code: Grabbing Country_Code...")
         country_input = message.filtered_input_str.strip()
-        LOG.info(country_input)
         if not country_input:
             await message.err("No Country_City code found after flag...")
             return
@@ -47,6 +46,12 @@ async def grab_time(message: Message):
         country_input = None
 
     country_code = COUNTRY_CITY if not country_input else country_input
+    try:
+        timezone(country_code)
+    except:
+        LOG.debug("date_time: Incorrect Country Code...")
+        await message.err("Unable To Determine Timezone With Given Country Code | " + country_code)
+        return
     datetime_now = datetime.now(timezone(country_code))
     date_day = datetime_now.strftime("%d")
     date_time = datetime_now.strftime('%I:%M%p')
@@ -56,7 +61,7 @@ async def grab_time(message: Message):
         date_time = date_time[1:]
     await message.edit(" ".join(["It's", date_time, "on", datetime_now.strftime('%A'), "the", date_day + ordinal_suffix(
         int(date_day)), "of", datetime_now.strftime('%B'), "in", country_code.replace("_", " ")]))
-    LOG.debug("Time: Command Finished Successfully")
+    LOG.debug("date_time: Command Finished Successfully")
 
 
 def ordinal_suffix(day: int):
