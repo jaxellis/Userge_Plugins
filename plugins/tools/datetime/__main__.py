@@ -12,7 +12,7 @@ LOG = userge.getLogger(__name__)  # logger object
         '-list | -l': "Gives a list of all Country/City Combos.",
         '-code | -c': "Uses Country_City code given."},
     'usage': "Use {tr}dt to show the Time & Date of your predefined City.\n"
-             "Use {tr}dt -l or {tr}dt -list to display all TZ Combo's for the Config\.n"
+             "Use {tr}dt -l or {tr}dt -list to display all TZ Combo's for the Config.\n"
              "Use {tr}dt -c or {tr}dt -code to use a defined Country/City combo.\n",
     'examples': ['{tr}dt', '{tr}dt [Flag]']},
     del_pre=True)
@@ -33,7 +33,7 @@ async def grab_time(message: Message):
 
     if 'code' in message.flags or 'c' in message.flags:
         LOG.debug("date_time | FLAG = Code: Grabbing Country_Code...")
-        country_input = message.input_str.strip()
+        country_input = message.filtered_input_str.strip()
         LOG.info(country_input)
         if not country_input:
             await message.err("No Country_City code found after flag...")
