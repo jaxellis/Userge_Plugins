@@ -42,7 +42,7 @@ async def grab_time(message: Message):
                            parse_mode="html", del_in=30)
         return
 
-    country_code = country_input if country_input else COUNTRY_CITY
+    country_code = COUNTRY_CITY if not country_input else country_input
     datetime_now = datetime.now(timezone(country_code))
     date_day = datetime_now.strftime("%d")
     date_time = datetime_now.strftime('%I:%M%p')
