@@ -36,13 +36,13 @@ async def grab_time(message: Message):
         return
 
     datetime_now = datetime.now(timezone(COUNTRY_CITY))
-    date_day_int = datetime_now.strftime('%d')
-    await message.edit(" ".join(["It's", datetime_now.strftime('%I:%M %p'), "on", datetime_now.strftime('%A'), "the", date_day_int, ordinal_suffix(
-        date_day_int), "of", datetime_now.strftime('%B'), "in", COUNTRY_CITY.replace("_", " ")]))
+    date_day = datetime_now.strftime("%d")
+    await message.edit(" ".join(["It's", datetime_now.strftime('%I:%M %p'), "on", datetime_now.strftime('%A'), "the", date_day, ordinal_suffix(
+        int(date_day)), "of", datetime_now.strftime('%B'), "in", COUNTRY_CITY.replace("_", " ")]))
     LOG.debug("Time: Command Finished Successfully")
 
 
-def ordinal_suffix(day):
+def ordinal_suffix(day: int):
     if 3 < day < 21 or 23 < day < 31:
         return 'th'
     else:
