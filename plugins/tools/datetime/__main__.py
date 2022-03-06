@@ -9,7 +9,8 @@ LOG = userge.getLogger(__name__)  # logger object
 @userge.on_cmd("datetime", about={
     'header': "Get the time and date of a City/Country/Timezone.",
     'flags': {
-        '-l': "Gives list of all Country/City Combos for Heroku Config"},
+        '-list': "Gives list of all Country/City Combos for Heroku Config.",
+        '-code': "Uses Country_City code given."},
     'usage': "Use {tr}dt to show the Time & Date of your predefined City\n"
              "Use {tr}dt -l to display all TZ Combo's for the Config\n",
     'examples': ['{tr}dt', '{tr}dt [Flag]']},
@@ -23,11 +24,18 @@ async def grab_time(message: Message):
         " one in your Heroku Config Under</code> (<code>COUNTRY_CITY</code>)\n"
         "<code>Ex: America/Los_Angeles</code>")
 
-    if 'l' in message.flags:
+    if '-list' in message.flags:
         LOG.debug("date_time | FLAG = List: Giving TZ list...")
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return
+    elif '-code' in message.flags:
+        LOG.debug("date_time | FLAG = Country_Code: Grabbing Country_Code...")
+        country_code = message.filtered_input_str
+        if not country_code:
+            await message.err("No Country_City code found after flag...")
+            return
+        COUNTRY_CITY = country_code
 
     if not COUNTRY_CITY:
         LOG.debug("date_time: No Config Set")
