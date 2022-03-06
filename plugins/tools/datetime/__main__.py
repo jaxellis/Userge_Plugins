@@ -59,8 +59,8 @@ async def grab_time(message: Message):
         date_day = date_day[1:]
     if date_time[0] == "0":
         date_time = date_time[1:]
-    await message.edit(" ".join(["It's", date_time, "on", datetime_now.strftime('%A'), "the", date_day + ordinal_suffix(
-        int(date_day)), "of", datetime_now.strftime('%B'), "in", country_code.replace("_", " ")]))
+    await message.edit(" ".join(["It's", date_time, "on", datetime_now.strftime('%A'), datetime_now.strftime('%B'), date_day + ordinal_suffix(
+        int(date_day)), "in", country_code.replace("_", " ")]))
     LOG.debug("date_time: Command Finished Successfully")
 
 
