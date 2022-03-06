@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from pytz import timezone
 from . import COUNTRY_CITY
 from userge import userge, Message
@@ -37,7 +37,12 @@ async def grab_time(message: Message):
 
     datetime_now = datetime.now(timezone(COUNTRY_CITY))
     date_day = datetime_now.strftime("%d")
-    await message.edit(" ".join(["It's", datetime_now.strftime('%I:%M %p'), "on", datetime_now.strftime('%A'), "the", date_day, ordinal_suffix(
+    date_time = datetime_now.strftime('%I:%M%p')
+    if date_day[0] == "0":
+        date_day = date_day[1:]
+    if date_time[0] == "0":
+        date_time = date_time[1:]
+    await message.edit(" ".join(["It's", date_time, "on", datetime_now.strftime('%A'), "the", date_day + ordinal_suffix(
         int(date_day)), "of", datetime_now.strftime('%B'), "in", COUNTRY_CITY.replace("_", " ")]))
     LOG.debug("Time: Command Finished Successfully")
 
