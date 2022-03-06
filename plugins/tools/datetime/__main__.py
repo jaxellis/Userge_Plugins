@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 from pytz import timezone
 from . import COUNTRY_CITY
 from userge import userge, Message
