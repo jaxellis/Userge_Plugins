@@ -25,13 +25,13 @@ async def grab_time(message: Message):
         " one in your Heroku Config Under</code> (<code>COUNTRY_CITY</code>)\n"
         "<code>Ex: America/Los_Angeles</code>")
 
-    if '-list' in message.flags or '-l' in message.flags:
+    if 'list' in message.flags or 'l' in message.flags:
         LOG.debug("date_time | FLAG = List: Giving TZ list...")
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return
 
-    if '-code' in message.flags or '-c' in message.flags:
+    if 'code' in message.flags or 'c' in message.flags:
         LOG.debug("date_time | FLAG = Code: Grabbing Country_Code...")
         country_input = message.input_str.strip()
         LOG.info(country_input)
