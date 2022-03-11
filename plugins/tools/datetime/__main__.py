@@ -12,15 +12,15 @@ LOG = userge.getLogger(__name__)  # logger object
         '-list | -l': "Gives a list of all Country/City Combos.",
         '-code | -c': "Uses Country_City code given."
     },
-    'usage': {
-        "{tr}dt to show the Time & Date of your predefined City.",
-        "{tr}dt -l | {tr}dt -list to display all TZ Combo's for the Config.",
-        "{tr}dt -c | {tr}dt -code to use a defined Country/City combo."
-    },
+    'usage':
+        "{tr}dt to show the Time & Date of your predefined City.\n"
+        "{tr}dt -l | {tr}dt -list to display all TZ Combo's for the Config.\n"
+        "{tr}dt -c | {tr}dt -code to use a defined Country/City combo.",
+
     'examples': ['{tr}dt', '{tr}dt [Flag]']
 }, del_pre=True)
 async def grab_time(message: Message):
-    LOG.debug("Starting Time command...")
+    LOG.info("Starting Time command...")
     country_input = await flag_checks(message, LOG)
     if country_input is None:
         return
@@ -43,9 +43,10 @@ async def grab_time(message: Message):
     await message.edit(" ".join(
         ["It's", date_time, "on",
          datetime_now.strftime('%A'), datetime_now.strftime('%B'), date_day +
-         ordinal_suffix(int(date_day)), "in", country_code.replace("_", " ")])
-    )
-    LOG.debug("date_time: Command Finished Successfully")
+         ordinal_suffix(int(date_day)), "in", country_code.replace("_", " ")
+         ]
+    ))
+    LOG.info("date_time: Command Finished Successfully")
 
 
 def ordinal_suffix(day: int):
@@ -63,20 +64,20 @@ async def flag_checks(message: Message, log):
         " one in your Heroku Config Under</code> (<code>COUNTRY_CITY</code>)\n"
         "<code>Ex: America/Los_Angeles</code>")
     if 'list' in message.flags or 'l' in message.flags:
-        log.debug("date_time | FLAG = List: Giving TZ list...")
+        log.info("date_time | FLAG = List: Giving TZ list...")
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return None
 
     if 'code' in message.flags or 'c' in message.flags:
-        log.debug("date_time | FLAG = Code: Grabbing Country_Code...")
+        log.info("date_time | FLAG = Code: Grabbing Country_Code...")
         country_input = message.filtered_input_str.strip()
         if not country_input:
             await message.err("No Country_City code found after flag...")
             return None
         return country_input
     elif not COUNTRY_CITY:
-        log.debug("date_time: No Config Set")
+        log.info("date_time: No Config Set")
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return None
