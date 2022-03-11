@@ -6,15 +6,19 @@ from userge import userge, Message
 LOG = userge.getLogger(__name__)  # logger object
 
 
-@userge.on_cmd("datetime", about={
-    'header': "Get the time and date of a City/Country/Timezone.",
-    'flags': {
-        '-list | -l': "Gives a list of all Country/City Combos.",
-        '-code | -c': "Uses Country_City code given."},
-    'usage': "Use {tr}dt to show the Time & Date of your predefined City.\n"
-             "Use {tr}dt -l or {tr}dt -list to display all TZ Combo's for the Config.\n"
-             "Use {tr}dt -c or {tr}dt -code to use a defined Country/City combo.\n",
-    'examples': ['{tr}dt', '{tr}dt [Flag]']},
+@userge.on_cmd(
+    "datetime",
+    about={
+        'header': "Get the time and date of a City/Country/Timezone.",
+        'flags': {
+            '-list | -l': "Gives a list of all Country/City Combos.",
+            '-code | -c': "Uses Country_City code given."},
+        'usage': "Use {tr}dt to show the Time & Date of your predefined City.\n"
+        "Use {tr}dt -l or {tr}dt -list to display all TZ Combo's for the Config.\n"
+        "Use {tr}dt -c or {tr}dt -code to use a defined Country/City combo.\n",
+        'examples': [
+            '{tr}dt',
+            '{tr}dt [Flag]']},
     del_pre=True)
 async def grab_time(message: Message):
     LOG.debug("Starting Time command...")
@@ -48,7 +52,7 @@ async def grab_time(message: Message):
     country_code = COUNTRY_CITY if not country_input else country_input
     try:
         timezone(country_code)
-    except:
+    except BaseException:
         LOG.debug("date_time: Incorrect Country Code...")
         await message.err("Unable To Determine Timezone With Given Country Code | " + country_code)
         return
