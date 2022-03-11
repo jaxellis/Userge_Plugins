@@ -81,5 +81,4 @@ async def flag_checks(message: Message, log):
         await message.edit(default_message, disable_web_page_preview=True,
                            parse_mode="html", del_in=30)
         return None
-    else:
-        country_input = False
+    return False
