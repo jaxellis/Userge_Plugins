@@ -22,7 +22,7 @@ LOG = userge.getLogger(__name__)  # logger object
 async def grab_time(message: Message):
     LOG.debug("Starting Time command...")
     country_input = await flag_checks(message, LOG)
-    if country_input == None:
+    if country_input is None:
         return
     country_code = COUNTRY_CITY if not country_input else country_input
     try:
